@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Days of Reverse C-Type Scoliosis Correction</title>
+    <style>
+        :root {
+            --primary: #2c7a7b;
+            --primary-dark: #1a4d4e;
+            --primary-light: #4fd1c5;
+            --secondary: #d53f8c;
+            --accent: #ed8936;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --success: #48bb78;
+            --warning: #ecc94b;
+            --danger: #f56565;
+            --shadow: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            color: white;
+            padding: 60px 20px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: drift 60s linear infinite;
+        }
+        @keyframes drift { from { transform: translate(0,0); } to { transform: translate(30px,30px); } }
+        .hero h1 { font-size: 2.5em; margin-bottom: 10px; position: relative; }
+        .hero p { font-size: 1.15em; opacity: 0.9; max-width: 700px; margin: 0 auto; position: relative; }
+        .hero .badge { display: inline-block; background: rgba(255,255,255,0.15); padding: 6px 18px; border-radius: 20px; font-size: 0.85em; margin-top: 15px; position: relative; }
+
+        /* ===== DISCLAIMER ===== */
+        .disclaimer {
+            background: #fffbeb;
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            margin: 0 auto;
+            max-width: 1100px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        .disclaimer strong { color: #c05621; }
+
+        /* ===== CONTAINER ===== */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* ===== NAV ===== */
+        .nav {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .nav a {
+            text-decoration: none;
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 0.85em;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .nav a:hover { background: var(--primary); color: white; }
+
+        /* ===== SECTION ===== */
+        section { padding: 40px 0; }
+        section h2 {
+            font-size: 1.8em;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            border-bottom: 3px solid var(--primary-light);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        section .subtitle { color: var(--text-light); margin-bottom: 25px; font-size: 0.95em; }
+
+        /* ===== CONDITION CARDS ===== */
+        .conditions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .condition-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary);
+            transition: transform 0.2s;
+        }
+        .condition-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+        .condition-card.scapular { border-top-color: var(--secondary); }
+        .condition-card.pelvic { border-top-color: var(--accent); }
+        .condition-card h3 { color: var(--primary-dark); margin-bottom: 10px; font-size: 1.2em; }
+        .condition-card.scapular h3 { color: var(--secondary); }
+        .condition-card.pelvic h3 { color: var(--accent); }
+        .condition-card p { font-size: 0.9em; color: var(--text-light); }
+        .condition-card .icon { font-size: 2em; margin-bottom: 10px; }
+
+        /* ===== EXERCISE LIBRARY ===== */
+        .exercise-filters {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+        }
+        .filter-btn {
+            padding: 8px 18px; border: 2px solid var(--border); background: white;
+            border-radius: 20px; cursor: pointer; font-size: 0.85em; font-weight: 600;
+            transition: all 0.2s; color: var(--text-light);
+        }
+        .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .filter-btn:hover { border-color: var(--primary); }
+
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        .exercise-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+            transition: all 0.2s;
+        }
+        .exercise-card:hover { box-shadow: var(--shadow-lg); transform: translateX(3px); }
+        .exercise-card.scapular { border-left-color: var(--secondary); }
+        .exercise-card.pelvic { border-left-color: var(--accent); }
+        .exercise-card.both { border-left-color: var(--success); }
+        .exercise-card h4 { font-size: 1em; margin-bottom: 6px; color: var(--text); }
+        .exercise-card .tags { display: flex; gap: 5px; margin-bottom: 8px; flex-wrap: wrap; }
+        .exercise-card .tag {
+            font-size: 0.7em; padding: 2px 8px; border-radius: 10px;
+            background: #e6fffa; color: var(--primary-dark);
+        }
+        .exercise-card .tag.scapular { background: #fff0f6; color: var(--secondary); }
+        .exercise-card .tag.pelvic { background: #fffaf0; color: var(--accent); }
+        .exercise-card p { font-size: 0.82em; color: var(--text-light); margin-bottom: 10px; }
+        .exercise-card a {
+            display: inline-flex; align-items: center; gap: 5px;
+            text-decoration: none; color: #e53e3e; font-weight: 600; font-size: 0.85em;
+        }
+        .exercise-card a:hover { text-decoration: underline; }
+
+        /* ===== PHASE OVERVIEW ===== */
+        .phase-overview {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
+        }
+        .phase-card {
+            background: var(--card-bg); border-radius: 10px; padding: 20px;
+            box-shadow: var(--shadow); text-align: center; position: relative;
+            overflow: hidden;
+        }
+        .phase-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+        }
+        .phase-card:nth-child(1)::before { background: #48bb78; }
+        .phase-card:nth-child(2)::before { background: #4299e1; }
+        .phase-card:nth-child(3)::before { background: #ed8936; }
+        .phase-card:nth-child(4)::before { background: #9f7aea; }
+        .phase-card:nth-child(5)::before { background: #e53e3e; }
+        .phase-card .phase-num { font-size: 2.5em; font-weight: 800; color: var(--border); }
+        .phase-card h4 { color: var(--primary-dark); margin: 5px 0; }
+        .phase-card .days { font-size: 0.8em; color: var(--text-light); }
+        .phase-card p { font-size: 0.82em; color: var(--text-light); margin-top: 8px; }
+
+        /* ===== DAY SCHEDULE ===== */
+        .day-controls {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; align-items: center;
+        }
+        .day-controls select {
+            padding: 8px 12px; border: 2px solid var(--border); border-radius: 6px;
+            font-size: 0.9em; cursor: pointer; font-family: inherit;
+        }
+
+        .day-list { display: flex; flex-direction: column; gap: 12px; }
+        .day-item {
+            background: var(--card-bg); border-radius: 10px; padding: 0;
+            box-shadow: var(--shadow); overflow: hidden; transition: all 0.2s;
+        }
+        .day-item:hover { box-shadow: var(--shadow-lg); }
+        .day-item.completed { opacity: 0.6; }
+        .day-item.completed .day-header { background: var(--success); }
+
+        .day-header {
+            display: flex; align-items: center; gap: 15px; padding: 15px 20px;
+            background: var(--primary-dark); color: white; cursor: pointer;
+            transition: background 0.2s;
+        }
+        .day-header:hover { background: var(--primary); }
+        .day-num {
+            background: rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 8px;
+            font-weight: 800; font-size: 1.1em; min-width: 60px; text-align: center;
+        }
+        .day-info { flex: 1; }
+        .day-info h4 { font-size: 1em; margin: 0; }
+        .day-info .meta { font-size: 0.78em; opacity: 0.8; }
+        .day-toggle { font-size: 1.3em; transition: transform 0.2s; }
+        .day-item.open .day-toggle { transform: rotate(180deg); }
+
+        .day-body {
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+        }
+        .day-item.open .day-body { max-height: 2000px; }
+        .day-content { padding: 20px; }
+
+        .exercise-row {
+            display: flex; align-items: flex-start; gap: 12px; padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .exercise-row:last-child { border-bottom: none; }
+        .exercise-row .num {
+            background: var(--primary-light); color: white; width: 28px; height: 28px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 0.8em; font-weight: 700; flex-shrink: 0;
+        }
+        .exercise-row .details { flex: 1; }
+        .exercise-row .details h5 { font-size: 0.95em; margin-bottom: 2px; }
+        .exercise-row .details .prescription { font-size: 0.82em; color: var(--text-light); }
+        .exercise-row .details a {
+            font-size: 0.8em; color: #e53e3e; text-decoration: none; font-weight: 600;
+        }
+        .exercise-row .details a:hover { text-decoration: underline; }
+        .exercise-row .cat-badge {
+            font-size: 0.65em; padding: 2px 8px; border-radius: 10px; margin-left: 5px;
+            vertical-align: middle;
+        }
+        .cat-badge.scoliosis { background: #e6fffa; color: var(--primary-dark); }
+        .cat-badge.pelvic { background: #fffaf0; color: var(--accent); }
+        .cat-badge.scapular { background: #fff0f6; color: var(--secondary); }
+
+        .day-check {
+            padding: 12px 20px; background: #f0fff4; display: flex; align-items: center; gap: 10px;
+            border-top: 1px solid var(--border);
+        }
+        .day-check input { width: 20px; height: 20px; cursor: pointer; accent-color: var(--success); }
+        .day-check label { cursor: pointer; font-weight: 600; color: var(--success); font-size: 0.9em; }
+
+        /* ===== PROGRESS ===== */
+        .progress-section {
+            background: var(--card-bg); border-radius: 12px; padding: 25px;
+            box-shadow: var(--shadow); margin: 30px 0;
+        }
+        .progress-bar-container {
+            background: var(--border); border-radius: 20px; height: 30px; overflow: hidden;
+            margin: 15px 0; position: relative;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(90deg, var(--success), var(--primary-light));
+            border-radius: 20px; transition: width 0.5s ease; display: flex;
+            align-items: center; justify-content: center; color: white; font-weight: 700;
+            font-size: 0.85em; min-width: 40px;
+        }
+        .progress-stats { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px; }
+        .progress-stat { text-align: center; }
+        .progress-stat .num { font-size: 2em; font-weight: 800; color: var(--primary); }
+        .progress-stat .label { font-size: 0.8em; color: var(--text-light); }
+
+        /* ===== TIPS ===== */
+        .tips-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;
+        }
+        .tip-card {
+            background: var(--card-bg); border-radius: 10px; padding: 20px;
+            box-shadow: var(--shadow); border-left: 4px solid var(--accent);
+        }
+        .tip-card h4 { color: var(--accent); margin-bottom: 8px; font-size: 1em; }
+        .tip-card p { font-size: 0.85em; color: var(--text-light); }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--primary-dark); color: white; text-align: center;
+            padding: 30px 20px; margin-top: 40px;
+        }
+        footer p { font-size: 0.85em; opacity: 0.8; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.8em; }
+            .nav a { font-size: 0.78em; padding: 6px 10px; }
+            section h2 { font-size: 1.4em; }
+        }
+
+        /* ===== PRINT ===== */
+        @media print {
+            .nav, .filter-btn, .day-controls, .progress-section { display: none; }
+            .day-body { max-height: none !important; }
+            .day-item { box-shadow: none; border: 1px solid #ccc; margin-bottom: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+    <h1>🦴 100 Days of Reverse C-Type Scoliosis Correction</h1>
+    <p>A structured daily exercise program addressing reverse C-type scoliosis, lateral anterior pelvic tilt, and right shoulder blade winging — with guided YouTube tutorials for every exercise.</p>
+    <div class="badge">📋 100-Day Program · 🎥 Video Tutorials · 📊 Progress Tracking</div>
+</div>
+
+<!-- ===== DISCLAIMER ===== -->
+<div class="disclaimer container" style="max-width:1100px;">
+    <strong>⚠️ Medical Disclaimer:</strong> This program is for educational purposes only and is not a substitute for professional medical advice. Scoliosis, pelvic tilt, and scapular winging are structural conditions that require evaluation by a physical therapist, orthopedist, or Schroth-certified practitioner. Always consult a healthcare professional before starting any exercise program. Stop immediately if you experience pain, numbness, or dizziness. The exercise links below lead to YouTube search results for your convenience — always verify the exercise matches your specific curve pattern before performing.
+</div>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+    <a href="#conditions">Conditions</a>
+    <a href="#library">Exercise Library</a>
+    <a href="#phases">Phase Overview</a>
+    <a href="#program">100-Day Program</a>
+    <a href="#progress">My Progress</a>
+    <a href="#tips">Safety Tips</a>
+</nav>
+
+<!-- ===== CONDITIONS ===== -->
+<section id="conditions" class="container">
+    <h2>Understanding Your Conditions</h2>
+    <p class="subtitle">Three interconnected issues that this program addresses simultaneously</p>
+    <div class="conditions-grid">
+        <div class="condition-card">
+            <div class="icon">🦴</div>
+            <h3>Reverse C-Type Scoliosis</h3>
+            <p>A single-curve spinal deviation where the spine bends in a C-shape (typically thoracic left or lumbar right, opposite to the common pattern). This program uses Schroth-inspired asymmetric exercises, rotational breathing, and side-specific strengthening to help correct the curve.</p>
+        </div>
+        <div class="condition-card pelvic">
+            <div class="icon">⚖️</div>
+            <h3>Lateral Anterior Pelvic Tilt</h3>
+            <p>The pelvis tilts forward (anterior) and drops unevenly side-to-side (lateral), often causing one leg to appear shorter, lower back arch, and hip imbalance. Correction involves stretching tight hip flexors, strengthening glutes and core, and retraining pelvic position.</p>
+        </div>
+        <div class="condition-card scapular">
+            <div class="icon">🤸</div>
+            <h3>Right Shoulder Blade Popping Out</h3>
+            <p>Scapular winging on the right side, often caused by weak serratus anterior, weak lower trapezius, and tight pectoral muscles. This is commonly associated with the scoliosis curve pattern. Correction focuses on serratus activation, scapular stability, and posterior chain strengthening.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== EXERCISE LIBRARY ===== -->
+<section id="library" class="container">
+    <h2>Exercise Library</h2>
+    <p class="subtitle">All exercises used in the 100-day program with YouTube tutorial links</p>
+
+    <div class="exercise-filters">
+        <button class="filter-btn active" data-filter="all">All Exercises</button>
+        <button class="filter-btn" data-filter="scoliosis">🦴 Scoliosis</button>
+        <button class="filter-btn" data-filter="pelvic">⚖️ Pelvic Tilt</button>
+        <button class="filter-btn" data-filter="scapular">🤸 Scapular Wing</button>
+    </div>
+
+    <div class="exercise-grid" id="exerciseGrid"></div>
+</section>
+
+<!-- ===== PHASE OVERVIEW ===== -->
+<section id="phases" class="container">
+    <h2>Program Phases</h2>
+    <p class="subtitle">Five progressive phases over 100 days</p>
+    <div class="phase-overview">
+        <div class="phase-card">
+            <div class="phase-num">1</div>
+            <h4>Foundation</h4>
+            <div class="days">Days 1–20</div>
+            <p>Build awareness, learn breathing, gentle mobility & baseline strength</p>
+        </div>
+        <div class="phase-card">
+            <div class="phase-num">2</div>
+            <h4>Build</h4>
+            <div class="days">Days 21–40</div>
+            <p>Core stability, scapular activation, pelvic tilt correction basics</p>
+        </div>
+        <div class="phase-card">
+            <div class="phase-num">3</div>
+            <h4>Correct</h4>
+            <div class="days">Days 41–60</div>
+            <p>Schroth-based asymmetric correction, intensified scapular work</p>
+        </div>
+        <div class="phase-card">
+            <div class="phase-num">4</div>
+            <h4>Strengthen</h4>
+            <div class="days">Days 61–80</div>
+            <p>Progressive overload, resistance training, functional integration</p>
+        </div>
+        <div class="phase-card">
+            <div class="phase-num">5</div>
+            <h4>Integrate</h4>
+            <div class="days">Days 81–100</div>
+            <p>Maintenance routine, lifestyle integration, long-term habits</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 100-DAY PROGRAM ===== -->
+<section id="program" class="container">
+    <h2>100-Day Program</h2>
+    <p class="subtitle">Click any day to expand the full exercise routine with video links</p>
+
+    <div class="day-controls">
+        <select id="phaseFilter">
+            <option value="all">All Phases (1–100)</option>
+            <option value="1">Phase 1: Foundation (Days 1–20)</option>
+            <option value="2">Phase 2: Build (Days 21–40)</option>
+            <option value="3">Phase 3: Correct (Days 41–60)</option>
+            <option value="4">Phase 4: Strengthen (Days 61–80)</option>
+            <option value="5">Phase 5: Integrate (Days 81–100)</option>
+        </select>
+        <button class="filter-btn" onclick="expandAll()">Expand All</button>
+        <button class="filter-btn" onclick="collapseAll()">Collapse All</button>
+    </div>
+
+    <div class="day-list" id="dayList"></div>
+</section>
+
+<!-- ===== PROGRESS ===== -->
+<section id="progress" class="container">
+    <h2>My Progress</h2>
+    <p class="subtitle">Track your daily completion — saved automatically in your browser</p>
+    <div class="progress-section">
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar" style="width: 0%;">0%</div>
+        </div>
+        <div class="progress-stats">
+            <div class="progress-stat">
+                <div class="num" id="daysCompleted">0</div>
+                <div class="label">Days Completed</div>
+            </div>
+            <div class="progress-stat">
+                <div class="num" id="daysRemaining">100</div>
+                <div class="label">Days Remaining</div>
+            </div>
+            <div class="progress-stat">
+                <div class="num" id="currentPhase">Phase 1</div>
+                <div class="label">Current Phase</div>
+            </div>
+            <div class="progress-stat">
+                <div class="num" id="streak">0</div>
+                <div class="label">Current Streak 🔥</div>
+            </div>
+        </div>
+        <button class="filter-btn" style="margin-top:15px;" onclick="resetProgress()">Reset Progress</button>
+    </div>
+</section>
+
+<!-- ===== TIPS ===== -->
+<section id="tips" class="container">
+    <h2>Safety Tips & Guidelines</h2>
+    <p class="subtitle">Important rules to follow throughout your 100-day journey</p>
+    <div class="tips-grid">
+        <div class="tip-card">
+            <h4>🩺 Get Evaluated First</h4>
+            <p>Before starting, get an X-ray and professional assessment to confirm your exact curve direction, degree, and pelvic tilt measurements. Exercises must match YOUR curve pattern.</p>
+        </div>
+        <div class="tip-card">
+            <h4>🌬️ Breathing is Key</h4>
+            <p>Schroth rotational breathing is the foundation of scoliosis correction. Practice it daily — inhale into the concave side, exhale to activate correction. Never hold your breath during exercises.</p>
+        </div>
+        <div class="tip-card">
+            <h4>🚫 No Pain, No Gain = FALSE</h4>
+            <p>Stop if you feel sharp pain, numbness, tingling, or dizziness. Muscle fatigue and mild soreness are normal; joint pain is not. Modify or skip exercises that aggravate your condition.</p>
+        </div>
+        <div class="tip-card">
+            <h4>📐 Mirror Feedback</h4>
+            <p>Use a mirror for exercises like wall slides, pelvic tilts, and scapular push-ups. Visual feedback helps you maintain proper form and symmetric movement patterns.</p>
+        </div>
+        <div class="tip-card">
+            <h4>⏰ Consistency Over Intensity</h4>
+            <p>20 minutes daily is far more effective than 2 hours once a week. Don't skip days — even on "rest" days, do your breathing and gentle mobility routine.</p>
+        </div>
+        <div class="tip-card">
+            <h4>🪑 Posture All Day</h4>
+            <p>Exercises alone won't fix your posture if you slouch for 10 hours a day. Set hourly reminders to check your sitting posture, pelvic position, and shoulder alignment.</p>
+        </div>
+        <div class="tip-card">
+            <h4>🧘 Foam Roller Daily</h4>
+            <p>Use a foam roller on your thoracic spine daily to improve mobility. Avoid rolling the lumbar spine directly. Roll slowly, 5–10 passes, focusing on tight areas.</p>
+        </div>
+        <div class="tip-card">
+            <h4>📸 Photo Every 2 Weeks</h4>
+            <p>Take front, back, and side photos every 2 weeks in the same lighting and pose. Track changes in shoulder height, scapular position, and pelvic level. Share with your therapist.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <p>100 Days of Reverse C-Type Scoliosis Correction · For educational use only · Always consult a healthcare professional</p>
+    <p style="margin-top:8px;">Your progress is saved locally in your browser. Clearing browser data will reset your tracking.</p>
+</footer>
+
+<script>
+// ===== EXERCISE LIBRARY =====
+const exercises = {
+    schrothBreathing: {
+        name: "Schroth Rotational Breathing",
+        cats: ["scoliosis"],
+        desc: "The cornerstone of scoliosis correction. Inhale into the concave (collapsed) side of the curve, exhale to activate correction.",
+        link: "https://www.youtube.com/results?search_query=schroth+method+rotational+breathing+scoliosis"
+    },
+    catCow: {
+        name: "Cat-Cow Stretch",
+        cats: ["scoliosis","pelvic"],
+        desc: "Gentle spinal mobility exercise. Move slowly, focusing on each vertebra. Great warm-up for any routine.",
+        link: "https://www.youtube.com/results?search_query=cat+cow+stretch+proper+form+yoga"
+    },
+    birdDog: {
+        name: "Bird Dog",
+        cats: ["scoliosis","pelvic"],
+        desc: "Quadruped core stability exercise. Extend opposite arm and leg, keep spine neutral. Excellent for anti-rotation.",
+        link: "https://www.youtube.com/results?search_query=bird+dog+exercise+proper+form+core"
+    },
+    deadBug: {
+        name: "Dead Bug",
+        cats: ["scoliosis","pelvic"],
+        desc: "Supine core exercise. Lower opposite arm and leg while maintaining flat lower back. Pelvic control focus.",
+        link: "https://www.youtube.com/results?search_query=dead+bug+exercise+proper+form+core"
+    },
+    sidePlankConvex: {
+        name: "Side Plank (Convex Side Down)",
+        cats: ["scoliosis"],
+        desc: "Asymmetric strengthening — hold the side plank on the convex side of your curve to strengthen weak muscles.",
+        link: "https://www.youtube.com/results?search_query=side+plank+scoliosis+exercise+schroth"
+    },
+    supinePelvicTilt: {
+        name: "Supine Pelvic Tilt",
+        cats: ["pelvic"],
+        desc: "Lie on back, practice anterior/posterior pelvic tilts. Build awareness of pelvic position.",
+        link: "https://www.youtube.com/results?search_query=supine+pelvic+tilt+exercise+anterior+pelvic+tilt"
+    },
+    standingPelvicTilt: {
+        name: "Standing Pelvic Tilt",
+        cats: ["pelvic"],
+        desc: "Standing version of pelvic tilt against a wall. Functional retraining of pelvic position.",
+        link: "https://www.youtube.com/results?search_query=standing+pelvic+tilt+exercise+wall"
+    },
+    wallAngels: {
+        name: "Wall Angels",
+        cats: ["scoliosis","scapular"],
+        desc: "Stand against wall, slide arms up and down. Improves thoracic mobility and scapular control.",
+        link: "https://www.youtube.com/results?search_query=wall+angels+exercise+posture+thoracic"
+    },
+    foamRollThoracic: {
+        name: "Foam Roller Thoracic Extension",
+        cats: ["scoliosis"],
+        desc: "Roll and extend over foam roller on upper back. Never roll lower back. Improves thoracic mobility.",
+        link: "https://www.youtube.com/results?search_query=foam+roller+thoracic+spine+mobilization+extension"
+    },
+    gluteBridge: {
+        name: "Glute Bridge",
+        cats: ["pelvic","scoliosis"],
+        desc: "Lie supine, lift hips by squeezing glutes. Strengthens posterior chain to counter anterior pelvic tilt.",
+        link: "https://www.youtube.com/results?search_query=glute+bridge+proper+form+glutes"
+    },
+    couchStretch: {
+        name: "Couch Stretch (Hip Flexor)",
+        cats: ["pelvic"],
+        desc: "Kneeling hip flexor stretch at wall. Critical for releasing tight hip flexors in anterior pelvic tilt.",
+        link: "https://www.youtube.com/results?search_query=couch+stretch+hip+flexor+anterior+pelvic+tilt"
+    },
+    doorwayStretch: {
+        name: "Doorway Pec Stretch",
+        cats: ["scapular","scoliosis"],
+        desc: "Stretch chest/pecs in a doorway. Releases tight pecs that pull shoulder blade forward.",
+        link: "https://www.youtube.com/results?search_query=doorway+chest+stretch+pec+tight"
+    },
+    wallSlides: {
+        name: "Wall Slides (Serratus)",
+        cats: ["scapular"],
+        desc: "Forearms on wall, slide up and down. Activates serratus anterior — key for scapular winging correction.",
+        link: "https://www.youtube.com/results?search_query=wall+slides+serratus+anterior+scapular"
+    },
+    scapularPushups: {
+        name: "Scapular Push-ups",
+        cats: ["scapular"],
+        desc: "From plank or wall, protract and retract scapulae without bending elbows. Direct serratus activation.",
+        link: "https://www.youtube.com/results?search_query=scapular+push+up+proper+form+serratus"
+    },
+    proneYTW: {
+        name: "Prone Y-T-W Raises",
+        cats: ["scapular","scoliosis"],
+        desc: "Lie prone, form Y, T, and W with arms. Strengthens lower traps, rhomboids, and rotator cuff.",
+        link: "https://www.youtube.com/results?search_query=prone+Y+T+W+exercise+shoulder+blade"
+    },
+    facePulls: {
+        name: "Face Pulls (Band)",
+        cats: ["scapular"],
+        desc: "Pull resistance band toward face, elbows high. Strengthens rear delts and external rotators.",
+        link: "https://www.youtube.com/results?search_query=face+pulls+resistance+band+form"
+    },
+    bandPullAparts: {
+        name: "Band Pull-Aparts",
+        cats: ["scapular"],
+        desc: "Hold band in front, pull apart squeezing shoulder blades. Rhomboid and mid-trap strengthener.",
+        link: "https://www.youtube.com/results?search_query=band+pull+aparts+proper+form+rhomboids"
+    },
+    serratusPunch: {
+        name: "Serratus Punches (Supine)",
+        cats: ["scapular"],
+        desc: "Lie supine with dumbbells, punch toward ceiling by protracting scapulae. Isolates serratus anterior.",
+        link: "https://www.youtube.com/results?search_query=serratus+punch+exercise+dumbbell"
+    },
+    deadHang: {
+        name: "Dead Hang / Hanging",
+        cats: ["scoliosis","scapular"],
+        desc: "Hang from bar for spinal decompression. Keep shoulders engaged (active hang) if you have winging.",
+        link: "https://www.youtube.com/results?search_query=dead+hang+spinal+decompression+proper+form"
+    },
+    quadrupedRotation: {
+        name: "Quadruped Thoracic Rotation",
+        cats: ["scoliosis"],
+        desc: "On hands and knees, thread one arm under body and open. Improves thoracic rotation mobility.",
+        link: "https://www.youtube.com/results?search_query=quadruped+thoracic+rotation+mobility"
+    },
+    halfKneelReach: {
+        name: "Half-Kneeling Side Reach",
+        cats: ["scoliosis","pelvic"],
+        desc: "Half-kneeling, reach overhead and laterally. Stretches the concave side, activates convex side.",
+        link: "https://www.youtube.com/results?search_query=half+kneeling+side+bend+reach+stretch"
+    },
+    unilateralCarry: {
+        name: "Unilateral Farmer's Carry",
+        cats: ["scoliosis","pelvic"],
+        desc: "Carry weight on one side. Forces core to resist lateral flexion. Load on convex side to strengthen.",
+        link: "https://www.youtube.com/results?search_query=unilateral+farmer+carry+core+stability"
+    },
+    proneCobra: {
+        name: "Prone Cobra",
+        cats: ["scoliosis","scapular"],
+        desc: "Lie prone, lift chest and squeeze shoulder blades. Strengthens spinal extensors and scapular retractors.",
+        link: "https://www.youtube.com/results?search_query=prone+cobra+exercise+posture+back"
+    },
+    bookOpeners: {
+        name: "Side-Lying Book Openers",
+        cats: ["scoliosis"],
+        desc: "Lie on side, open top arm across body. Thoracic rotation mobility exercise.",
+        link: "https://www.youtube.com/results?search_query=side+lying+book+openers+thoracic+rotation"
+    },
+    clamshells: {
+        name: "Clamshells",
+        cats: ["pelvic"],
+        desc: "Side-lying, knees bent, open top knee. Strengthens hip abductors/glute medius for pelvic stability.",
+        link: "https://www.youtube.com/results?search_query=clamshell+exercise+glute+medius+proper+form"
+    },
+    adductorStretch: {
+        name: "Adductor (Butterfly) Stretch",
+        cats: ["pelvic"],
+        desc: "Sit, soles together, gently press knees down. Releases tight inner thigh muscles.",
+        link: "https://www.youtube.com/results?search_query=butterfly+stretch+adductor+proper+form"
+    },
+    kneelingLunge: {
+        name: "Kneeling Lunge Stretch",
+        cats: ["pelvic"],
+        desc: "Kneeling lunge, tuck pelvis under, feel stretch in front of hip. Hip flexor release.",
+        link: "https://www.youtube.com/results?search_query=kneeling+lunge+stretch+hip+flexor+pelvic+tilt"
+    },
+    dbRow: {
+        name: "Dumbbell Row (Rhomboid Focus)",
+        cats: ["scapular"],
+        desc: "Bent-over row with focus on squeezing shoulder blade. Strengthens rhomboids for scapular stability.",
+        link: "https://www.youtube.com/results?search_query=dumbbell+row+rhomboid+focus+form"
+    },
+    extRotation: {
+        name: "Resistance Band External Rotation",
+        cats: ["scapular"],
+        desc: "Elbow at side, rotate outward with band. Strengthens rotator cuff for scapular stability.",
+        link: "https://www.youtube.com/results?search_query=resistance+band+external+rotation+shoulder"
+    },
+    lowerTrap: {
+        name: "Lower Trap Activation (Prone I)",
+        cats: ["scapular"],
+        desc: "Lie prone, arms straight overhead (I shape), lift arms by activating lower traps.",
+        link: "https://www.youtube.com/results?search_query=lower+trapezius+activation+prone+I+exercise"
+    },
+    pushupPlus: {
+        name: "Wall Push-up Plus",
+        cats: ["scapular"],
+        desc: "Wall push-up with extra protraction at top. Serratus activation in a closed-chain position.",
+        link: "https://www.youtube.com/results?search_query=push+up+plus+serratus+anterior+wall"
+    },
+    quadrupedPelvicTilt: {
+        name: "Quadruped Pelvic Tilt",
+        cats: ["pelvic"],
+        desc: "On hands and knees, practice cat/cow pelvic movements. Builds pelvic awareness in neutral spine.",
+        link: "https://www.youtube.com/results?search_query=quadruped+pelvic+tilt+exercise+cat+cow"
+    },
+    wallSitTuck: {
+        name: "Wall Sit with Pelvic Tuck",
+        cats: ["pelvic"],
+        desc: "Wall sit while actively tucking pelvis. Combines leg strength with pelvic position training.",
+        link: "https://www.youtube.com/results?search_query=wall+sit+pelvic+tuck+posterior+tilt"
+    },
+    halfKneelingChop: {
+        name: "Half-Kneeling Cable/Band Chop",
+        cats: ["scoliosis","pelvic"],
+        desc: "Half-kneeling, chop diagonally with band. Core anti-rotation + pelvic stability.",
+        link: "https://www.youtube.com/results?search_query=half+kneeling+chop+exercise+core+stability"
+    },
+    reverseHyper: {
+        name: "Reverse Hyperextensions (Glute Focus)",
+        cats: ["pelvic","scoliosis"],
+        desc: "Lie prone on table/bench, lift legs using glutes. Strengthens posterior chain without loading spine.",
+        link: "https://www.youtube.com/results?search_query=reverse+hyperextension+glute+focus+form"
+    },
+    pallofPress: {
+        name: "Pallof Press",
+        cats: ["scoliosis","pelvic"],
+        desc: "Anti-rotation core exercise with band. Resist rotational force, maintain neutral spine.",
+        link: "https://www.youtube.com/results?search_query=pallof+press+proper+form+anti+rotation"
+    },
+    hipHike: {
+        name: "Standing Hip Hikes",
+        cats: ["scoliosis","pelvic"],
+        desc: "Stand on step, hike hip up and down. Corrects lateral pelvic tilt by strengthening hip hiking muscles.",
+        link: "https://www.youtube.com/results?search_query=standing+hip+hike+exercise+lateral+pelvic+tilt"
+    },
+    resistanceBandRow: {
+        name: "Seated Resistance Band Row",
+        cats: ["scapular"],
+        desc: "Seated row with band, focus on scapular retraction. Postural strength for shoulder blade position.",
+        link: "https://www.youtube.com/results?search_query=seated+resistance+band+row+scapular+retraction"
+    },
+    sideLyingLegRaise: {
+        name: "Side-Lying Leg Raise",
+        cats: ["pelvic"],
+        desc: "Lie on side, lift top leg. Strengthens hip abductors for pelvic leveling.",
+        link: "https://www.youtube.com/results?search_query=side+lying+leg+raise+hip+abductor"
+    }
+};
+
+// ===== RENDER EXERCISE LIBRARY =====
+function renderExercises(filter = 'all') {
+    const grid = document.getElementById('exerciseGrid');
+    grid.innerHTML = '';
+    Object.entries(exercises).forEach(([key, ex]) => {
+        if (filter !== 'all' && !ex.cats.includes(filter)) return;
+        const card = document.createElement('div');
+        card.className = `exercise-card ${ex.cats[0]}`;
+        if (ex.cats.length > 1) card.classList.add('both');
+        const tags = ex.cats.map(c => `<span class="tag ${c}">${c}</span>`).join('');
+        card.innerHTML = `
+            <h4>${ex.name}</h4>
+            <div class="tags">${tags}</div>
+            <p>${ex.desc}</p>
+            <a href="${ex.link}" target="_blank" rel="noopener">▶ Watch Tutorial on YouTube</a>
+        `;
+        grid.appendChild(card);
+    });
+}
+renderExercises();
+
+document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderExercises(btn.dataset.filter);
+    });
+});
+
+// ===== 100-DAY PROGRAM DATA =====
+// Each day has: day number, phase, title, type (heavy/light/recovery/rest), exercises [{key, sets}]
+const phaseConfig = {
+    1: { name: "Foundation", days: [1,20], color: "#48bb78" },
+    2: { name: "Build", days: [21,40], color: "#4299e1" },
+    3: { name: "Correct", days: [41,60], color: "#ed8936" },
+    4: { name: "Strengthen", days: [61,80], color: "#9f7aea" },
+    5: { name: "Integrate", days: [81,100], color: "#e53e3e" }
+};
+
+function getPhase(day) {
+    if (day <= 20) return 1;
+    if (day <= 40) return 2;
+    if (day <= 60) return 3;
+    if (day <= 80) return 4;
+    return 5;
+}
+
+function getDayType(day) {
+    const dow = day % 7; // 1=Mon...7=Sun pattern
+    if (dow === 0) return 'rest';      // Sunday
+    if (dow === 6) return 'recovery';  // Saturday
+    if (dow === 2 || dow === 4) return 'light'; // Tue, Thu
+    return 'heavy'; // Mon, Wed, Fri
+}
+
+function getDayProgram(day) {
+    const phase = getPhase(day);
+    const type = getDayType(day);
+    const phaseName = phaseConfig[phase].name;
+
+    // ===== REST DAYS =====
+    if (type === 'rest') {
+        return {
+            phase, phaseName, type,
+            title: "Active Rest & Breathing",
+            focus: "Gentle movement and breathing only",
+            exercises: [
+                { key: 'schrothBreathing', sets: "5 min" },
+                { key: 'catCow', sets: "2 sets × 8 reps" }
+            ],
+            note: "Take a walk (20+ min), focus on posture. Let your body recover."
+        };
+    }
+
+    // ===== RECOVERY DAYS =====
+    if (type === 'recovery') {
+        let routine;
+        if (phase === 1) {
+            routine = [
+                { key: 'schrothBreathing', sets: "10 min" },
+                { key: 'catCow', sets: "3 sets × 10 reps" },
+                { key: 'bookOpeners', sets: "2 sets × 8 reps/side" },
+                { key: 'foamRollThoracic', sets: "5 min" }
+            ];
+        } else if (phase === 2) {
+            routine = [
+                { key: 'schrothBreathing', sets: "10 min" },
+                { key: 'catCow', sets: "3 sets × 12 reps" },
+                { key: 'bookOpeners', sets: "3 sets × 10 reps/side" },
+                { key: 'quadrupedPelvicTilt', sets: "2 sets × 12 reps" },
+                { key: 'standingPelvicTilt', sets: "2 sets × 15 reps" }
+            ];
+        } else if (phase === 3) {
+            routine = [
+                { key: 'schrothBreathing', sets: "10 min" },
+                { key: 'deadHang', sets: "3 sets × 25 sec" },
+                { key: 'catCow', sets: "3 sets × 15 reps" },
+                { key: 'quadrupedRotation', sets: "2 sets × 12 reps/side" },
+                { key: 'proneCobra', sets: "2 sets × 10 reps" }
+            ];
+        } else if (phase === 4) {
+            routine = [
+                { key: 'schrothBreathing', sets: "10 min" },
+                { key: 'deadHang', sets: "3 sets × 30 sec" },
+                { key: 'proneCobra', sets: "3 sets × 12 reps" },
+                { key: 'bookOpeners', sets: "3 sets × 12 reps/side" },
+                { key: 'foamRollThoracic', sets: "5 min" }
+            ];
+        } else {
+            routine = [
+                { key: 'schrothBreathing', sets: "10 min" },
+                { key: 'deadHang', sets: "3 sets × 35 sec" },
+                { key: 'catCow', sets: "3 sets × 15 reps" },
+                { key: 'quadrupedRotation', sets: "3 sets × 12 reps/side" },
+                { key: 'bookOpeners', sets: "3 sets × 12 reps/side" },
+                { key: 'foamRollThoracic', sets: "5 min" }
+            ];
+        }
+        return {
+            phase, phaseName, type,
+            title: "Recovery & Mobility",
+            focus: "Decompression, mobility, breathing",
+            exercises: routine,
+            note: "Focus on quality movement and breathing. No heavy resistance."
+        };
+    }
+
+    // ===== LIGHT DAYS =====
+    if (type === 'light') {
+        let routine;
+        if (phase === 1) {
+            routine = [
+                { key: 'schrothBreathing', sets: "5 min" },
+                { key: 'foamRollThoracic', sets: "5 min" },
+                { key: 'doorwayStretch', sets: "3 sets × 30 sec/side" },
+                { key: 'couchStretch', sets: "2 sets × 30 sec/side" },
+                { key: 'adductorStretch', sets: "2 sets × 30 sec" },
+                { key: 'supinePelvicTilt', sets: "2 sets × 12 reps" }
+            ];
+        } else if (phase === 2) {
+            routine = [
+                { key: 'schrothBreathing', sets: "5 min" },
+                { key: 'foamRollThoracic', sets: "5 min" },
+                { key: 'couchStretch', sets: "2 sets × 45 sec/side" },
+                { key: 'kneelingLunge', sets: "2 sets × 45 sec/side" },
+                { key: 'quadrupedRotation', sets: "2 sets × 10 reps/side" },
+                { key: 'adductorStretch', sets: "2 sets × 30 sec" }
+            ];
+        } else if (phase === 3) {
+            routine = [
+                { key: 'schrothBreathing', sets: "5 min" },
+                { key: 'foamRollThoracic', sets: "5 min" },
+                { key: 'halfKneelReach', sets: "2 sets × 30 sec/side" },
+                { key: 'facePulls', sets: "3 sets × 15 reps" },
+                { key: 'bandPullAparts', sets: "3 sets × 15 reps" },
+                { key: 'couchStretch', sets: "2 sets × 45 sec/side" }
+            ];
+        } else if (phase === 4) {
+            routine = [
+                { key: 'schrothBreathing', sets: "5 min" },
+                { key: 'foamRollThoracic', sets: "5 min" },
+                { key: 'couchStretch', sets: "2 sets × 60 sec/side" },
+                { key: 'pushupPlus', sets: "3 sets × 15 reps" },
+                { key: 'extRotation', sets: "3 sets × 15 reps/side" },
+                { key: 'halfKneelReach', sets: "2 sets × 30 sec/side" }
+            ];
+        } else {
+            routine = [
+                { key: 'schrothBreathing', sets: "5 min" },
+                { key: 'foamRollThoracic', sets: "5 min" },
+                { key: 'couchStretch', sets: "2 sets × 60 sec/side" },
+                { key: 'doorwayStretch', sets: "3 sets × 30 sec/side" },
+                { key: 'halfKneelReach', sets: "2 sets × 30 sec/side" },
+                { key: 'adductorStretch', sets: "2 sets × 45 sec" },
+                { key: 'quadrupedRotation', sets: "2 sets × 12 reps/side" }
+            ];
+        }
+        return {
+            phase, phaseName, type,
+            title: "Stretch & Mobility",
+            focus: "Release tight muscles, improve mobility",
+            exercises: routine,
+            note: "Hold stretches gently — never force. Breathe deeply throughout."
+        };
+    }
+
+    // ===== HEAVY DAYS =====
+    let routine;
+    if (phase === 1) {
+        routine = [
+            { key: 'schrothBreathing', sets: "5 min" },
+            { key: 'catCow', sets: "2 sets × 10 reps" },
+            { key: 'supinePelvicTilt', sets: "3 sets × 15 reps" },
+            { key: 'wallAngels', sets: "3 sets × 10 reps" },
+            { key: 'gluteBridge', sets: "3 sets × 12 reps" },
+            { key: 'deadBug', sets: "3 sets × 10 reps/side" },
+            { key: 'doorwayStretch', sets: "2 sets × 30 sec/side" }
+        ];
+    } else if (phase === 2) {
+        routine = [
+            { key: 'schrothBreathing', sets: "5 min" },
+            { key: 'birdDog', sets: "3 sets × 12 reps/side" },
+            { key: 'deadBug', sets: "3 sets × 12 reps/side" },
+            { key: 'sidePlankConvex', sets: "3 sets × 20 sec" },
+            { key: 'wallSlides', sets: "3 sets × 15 reps" },
+            { key: 'scapularPushups', sets: "3 sets × 10 reps" },
+            { key: 'gluteBridge', sets: "3 sets × 15 reps" },
+            { key: 'clamshells', sets: "3 sets × 15 reps/side" }
+        ];
+    } else if (phase === 3) {
+        routine = [
+            { key: 'schrothBreathing', sets: "10 min" },
+            { key: 'sidePlankConvex', sets: "3 sets × 30 sec" },
+            { key: 'birdDog', sets: "3 sets × 15 reps/side" },
+            { key: 'proneYTW', sets: "3 sets × 10 reps each" },
+            { key: 'wallSlides', sets: "3 sets × 20 reps" },
+            { key: 'serratusPunch', sets: "3 sets × 15 reps" },
+            { key: 'unilateralCarry', sets: "3 sets × 30 sec/side" },
+            { key: 'hipHike', sets: "3 sets × 15 reps/side" }
+        ];
+    } else if (phase === 4) {
+        routine = [
+            { key: 'schrothBreathing', sets: "10 min" },
+            { key: 'sidePlankConvex', sets: "3 sets × 45 sec" },
+            { key: 'birdDog', sets: "3 sets × 20 reps/side" },
+            { key: 'proneYTW', sets: "3 sets × 15 reps each" },
+            { key: 'scapularPushups', sets: "3 sets × 15 reps" },
+            { key: 'dbRow', sets: "3 sets × 12 reps/side" },
+            { key: 'lowerTrap', sets: "3 sets × 15 reps" },
+            { key: 'clamshells', sets: "3 sets × 20 reps/side" },
+            { key: 'pallofPress', sets: "3 sets × 12 reps/side" }
+        ];
+    } else {
+        routine = [
+            { key: 'schrothBreathing', sets: "10 min" },
+            { key: 'sidePlankConvex', sets: "3 sets × 60 sec" },
+            { key: 'birdDog', sets: "3 sets × 20 reps/side" },
+            { key: 'proneYTW', sets: "3 sets × 15 reps each" },
+            { key: 'scapularPushups', sets: "3 sets × 20 reps" },
+            { key: 'dbRow', sets: "3 sets × 15 reps/side" },
+            { key: 'facePulls', sets: "3 sets × 20 reps" },
+            { key: 'reverseHyper', sets: "3 sets × 15 reps" },
+            { key: 'halfKneelingChop', sets: "3 sets × 12 reps/side" },
+            { key: 'unilateralCarry', sets: "3 sets × 40 sec/side" }
+        ];
+    }
+    return {
+        phase, phaseName, type,
+        title: "Correction & Strengthening",
+        focus: type === 'heavy' ? "Full corrective routine" : "Stretch & mobility",
+        exercises: routine,
+        note: "Focus on form over speed. Mirror check your posture. Breathe through each rep."
+    };
+}
+
+// ===== RENDER DAY LIST =====
+function renderDays(phaseFilter = 'all') {
+    const list = document.getElementById('dayList');
+    list.innerHTML = '';
+    for (let day = 1; day <= 100; day++) {
+        const prog = getDayProgram(day);
+        if (phaseFilter !== 'all' && prog.phase !== parseInt(phaseFilter)) continue;
+
+        const phaseColor = phaseConfig[prog.phase].color;
+        const typeIcon = { heavy: '💪', light: '🧘', recovery: '🔄', rest: '😴' }[prog.type];
+        const typeName = prog.type.charAt(0).toUpperCase() + prog.type.slice(1);
+
+        const exerciseHTML = prog.exercises.map((ex, i) => {
+            const exercise = exercises[ex.key];
+            const catBadges = exercise.cats.map(c =>
+                `<span class="cat-badge ${c}">${c}</span>`
+            ).join('');
+            return `
+                <div class="exercise-row">
+                    <div class="num">${i + 1}</div>
+                    <div class="details">
+                        <h5>${exercise.name} ${catBadges}</h5>
+                        <div class="prescription"><strong>${ex.sets}</strong> — ${exercise.desc.substring(0, 80)}...</div>
+                        <a href="${exercise.link}" target="_blank" rel="noopener">▶ Watch Tutorial</a>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        const dayEl = document.createElement('div');
+        dayEl.className = 'day-item';
+        dayEl.dataset.day = day;
+        dayEl.innerHTML = `
+            <div class="day-header" style="background:${phaseColor};" onclick="toggleDay(${day})">
+                <div class="day-num">Day ${day}</div>
+                <div class="day-info">
+                    <h4>${typeIcon} ${prog.title}</h4>
+                    <div class="meta">Phase ${prog.phase}: ${prog.phaseName} · ${typeName} Day · ${prog.exercises.length} exercises</div>
+                </div>
+                <div class="day-toggle">▼</div>
+            </div>
+            <div class="day-body">
+                <div class="day-content">
+                    <p style="font-size:0.85em;color:var(--text-light);margin-bottom:10px;">
+                        <strong>Focus:</strong> ${prog.focus} · ${prog.note}
+                    </p>
+                    ${exerciseHTML}
+                </div>
+                <div class="day-check">
+                    <input type="checkbox" id="check-${day}" onchange="toggleComplete(${day})" ${isCompleted(day) ? 'checked' : ''}>
+                    <label for="check-${day}">Mark Day ${day} as Complete ✓</label>
+                </div>
+            </div>
+        `;
+        if (isCompleted(day)) dayEl.classList.add('completed');
+        list.appendChild(dayEl);
+    }
+    updateProgress();
+}
+
+function toggleDay(day) {
+    const el = document.querySelector(`.day-item[data-day="${day}"]`);
+    el.classList.toggle('open');
+}
+
+function expandAll() {
+    document.querySelectorAll('.day-item').forEach(el => el.classList.add('open'));
+}
+function collapseAll() {
+    document.querySelectorAll('.day-item').forEach(el => el.classList.remove('open'));
+}
+
+// ===== PROGRESS TRACKING =====
+function getCompleted() {
+    try { return JSON.parse(localStorage.getItem('scoliosis100') || '{}'); }
+    catch { return {}; }
+}
+function isCompleted(day) {
+    return !!getCompleted()[day];
+}
+function toggleComplete(day) {
+    const completed = getCompleted();
+    completed[day] = !completed[day];
+    if (!completed[day]) delete completed[day];
+    localStorage.setItem('scoliosis100', JSON.stringify(completed));
+    const el = document.querySelector(`.day-item[data-day="${day}"]`);
+    if (el) el.classList.toggle('completed', !!completed[day]);
+    updateProgress();
+}
+
+function updateProgress() {
+    const completed = getCompleted();
+    const count = Object.keys(completed).length;
+    const pct = Math.round(count / 100 * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressBar').textContent = pct + '%';
+    document.getElementById('daysCompleted').textContent = count;
+    document.getElementById('daysRemaining').textContent = 100 - count;
+
+    // Current phase
+    let currentDay = 1;
+    for (let d = 100; d >= 1; d--) {
+        if (completed[d]) { currentDay = d + 1; break; }
+    }
+    if (currentDay > 100) currentDay = 100;
+    const currentPhase = getPhase(currentDay);
+    document.getElementById('currentPhase').textContent = 'Phase ' + currentPhase;
+
+    // Streak
+    let streak = 0;
+    for (let d = currentDay - 1; d >= 1; d--) {
+        if (completed[d]) streak++;
+        else break;
+    }
+    document.getElementById('streak').textContent = streak;
+}
+
+function resetProgress() {
+    if (confirm('Reset all progress? This cannot be undone.')) {
+        localStorage.removeItem('scoliosis100');
+        document.querySelectorAll('.day-item input[type="checkbox"]').forEach(cb => cb.checked = false);
+        document.querySelectorAll('.day-item').forEach(el => el.classList.remove('completed'));
+        updateProgress();
+    }
+}
+
+// ===== PHASE FILTER =====
+document.getElementById('phaseFilter').addEventListener('change', (e) => {
+    renderDays(e.target.value);
+});
+
+// ===== INIT =====
+renderDays();
+</script>
+
+</body>
+</html>
